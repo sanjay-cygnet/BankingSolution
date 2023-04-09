@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Repository.Service;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace BuildingBlocks.UnitTest.Extensions
@@ -8,6 +9,11 @@ namespace BuildingBlocks.UnitTest.Extensions
         public static Mock<IUnitOfWork> GetMockUnitOfWork()
         {
             return new Mock<IUnitOfWork>();
+        }
+
+        public static Mock<IUnitOfWork<TContenxt>> GetMockUnitOfWork<TContenxt>() where TContenxt : DbContext
+        {
+            return new Mock<IUnitOfWork<TContenxt>>();
         }
 
         public static void SetupRepositoryInUnitOfWork<TRepo>(this Mock<IUnitOfWork> unitOfWorkMock, Mock<IRepositoryAsync<TRepo>> output)

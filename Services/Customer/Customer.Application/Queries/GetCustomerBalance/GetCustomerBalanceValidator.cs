@@ -1,12 +1,11 @@
-﻿using FluentValidation;
+﻿namespace Customer.Application.Queries;
 
-namespace Customer.Application.Queries
+using FluentValidation;
+
+public sealed class GetCustomerBalanceValidator : AbstractValidator<GetCustomerBalanceQuery>
 {
-    internal sealed class GetCustomerBalanceValidator : AbstractValidator<GetCustomerBalanceQuery>
+    public GetCustomerBalanceValidator()
     {
-        public GetCustomerBalanceValidator()
-        {
-            RuleFor(r => r.AccountId).NotEmpty().NotNull();
-        }
+        RuleFor(r => r.AccountId).GreaterThan(0).NotEmpty().NotNull();
     }
 }

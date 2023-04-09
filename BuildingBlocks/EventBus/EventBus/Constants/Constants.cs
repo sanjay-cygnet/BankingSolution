@@ -1,8 +1,7 @@
-﻿namespace BuildingBlocks.EventBus.Constants
+﻿namespace BuildingBlocks.EventBus.Constants;
+
+public static class DefaultConstants
 {
-    public static class DefaultConstants
-    {
-        public const string EmailQueueName = "EmailQueue";
-        public const string SmsQueueName = "SmsQueue";
-    }
+    public const string EmailQueueName = "EmailQueue";
+    public const string SmsQueueName = "SmsQueue";
 }

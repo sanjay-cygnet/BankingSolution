@@ -8,6 +8,12 @@
         Failed = 4
     }
 
+    public enum TransactionTypeEnum
+    {
+        Debit = 1,
+        Credit = 2
+    }
+
     public enum AccountStatusEnum
     {
         Active = 1,
