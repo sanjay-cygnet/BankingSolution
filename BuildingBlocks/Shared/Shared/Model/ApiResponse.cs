@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Shared.Extensions;
+﻿using BuildingBlocks.Shared.Constants;
+using BuildingBlocks.Shared.Extensions;
 using Shared.Extensions;
 using System.Net;
 using System.Text.Json.Serialization;
@@ -23,11 +24,12 @@ namespace Shared.Model
         public ApiResponse(
             int statusCode,
             string errorMessage,
+            string? title = null,
             ErrorResponse? errors = null)//Used  for fail response
         {
             Success = false;
             StatusCode = statusCode;
-            Error = errors is null && !errorMessage.IsNull() ? new ErrorResponse() { Message = errorMessage } : errors;
+            Error = errors is null && !errorMessage.IsNull() ? new ErrorResponse() { Message = errorMessage, Title = title.IsNull() ? Validations.RequestCouldNotProcessed : title } : errors;
         }
 
         public bool Success { get; set; }

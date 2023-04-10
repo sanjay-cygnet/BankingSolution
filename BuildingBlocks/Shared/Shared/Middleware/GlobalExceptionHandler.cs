@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using BuildingBlocks.Shared.Constants;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -46,7 +47,7 @@ namespace BuildingBlocks.Shared.Middleware
                 StatusCode = statusCode,
                 Error = new ErrorResponse
                 {
-                    Title = "Request could not be processed!",
+                    Title = Validations.RequestCouldNotProcessed,
                     Message = statusCode != StatusCodes.Status422UnprocessableEntity ? exception.Message : String.Empty,
                     Errors = GetErrors(exception)
                 }
@@ -62,6 +63,7 @@ namespace BuildingBlocks.Shared.Middleware
                 return StatusCodes.Status422UnprocessableEntity;
             else return StatusCodes.Status500InternalServerError;
         }
+
         private static List<ErrorDetail>? GetErrors(Exception exception)
         {
             List<ErrorDetail>? errors = null;

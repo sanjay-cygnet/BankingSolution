@@ -2,6 +2,7 @@
 
 using BuildingBlocks.Shared.DomainObjects;
 using global::Customer.Domain.Exceptions;
+using Shared.Enum;
 
 public class Transaction : Entity
 {
@@ -25,9 +26,9 @@ public class Transaction : Entity
     public Transaction(
        Account account,
         double amount,
-        short transactionType)
+        TransactionTypeEnum transactionType)
     {
-        TransactionType = transactionType > 0 && transactionType <= 2 ? transactionType : throw new CustomerDomainException(nameof(amount));///1 for debit, 2 for credit
+        TransactionType = transactionType > 0 && (short)transactionType <= 2 ? (short)transactionType : throw new CustomerDomainException(nameof(amount));///1 for debit, 2 for credit
         Amount = amount >= 0 ? amount : throw new CustomerDomainException(nameof(amount));
         EffectiveDate = DateTime.UtcNow;
         Account = account;

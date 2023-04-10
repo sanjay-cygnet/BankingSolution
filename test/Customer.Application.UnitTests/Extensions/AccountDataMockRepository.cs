@@ -46,9 +46,9 @@ internal static class AccountDataMockRepository
     {
         Transactions = new List<Transaction>()
                 {
-                    new Transaction(Accounts[1],200,2),
-                     new Transaction(Accounts[0],400,1),
-                       new Transaction(Accounts[1],400,1)
+                    new Transaction(Accounts[1],200,Shared.Enum.TransactionTypeEnum.Debit),
+                     new Transaction(Accounts[0],400,Shared.Enum.TransactionTypeEnum.Debit),
+                       new Transaction(Accounts[1],400,Shared.Enum.TransactionTypeEnum.Debit)
                 };
     }
 

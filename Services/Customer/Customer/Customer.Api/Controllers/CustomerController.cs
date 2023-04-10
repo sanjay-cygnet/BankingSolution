@@ -5,6 +5,7 @@ using Customer.Application.Dtos;
 using Customer.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Extensions;
+using Shared.Model;
 using Swashbuckle.AspNetCore.Annotations;
 
 /// <summary>
@@ -33,8 +34,8 @@ public class CustomerController : ControllerBase
     /// <param name="accountId">The account identifier.</param>
     /// <returns></returns>
     [HttpGet("balance/{accountId}")]
-    [SwaggerResponse(StatusCodes.Status200OK, null, typeof(GetCustomerBalanceDto))]
-    [SwaggerResponse(StatusCodes.Status500InternalServerError, null, typeof(ErrorResponse))]
+    [SwaggerResponse(StatusCodes.Status200OK, null, typeof(ApiResponse<GetCustomerBalanceDto>))]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, null, typeof(ApiResponse<GetCustomerBalanceDto>))]
     public async Task<IActionResult> GetCustomerBalance(int accountId)
     {
         var result = await _sender.Send(new GetCustomerBalanceQuery(accountId));

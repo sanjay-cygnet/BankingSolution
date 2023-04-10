@@ -67,7 +67,7 @@ public class Account : Entity, IBaseEntity, IAggregateRoot
         {
             //TODO : Actual code to transfer amount thorugh payment gateway,
 
-            Transaction transactionDetails = new Transaction(account, amountToTransfer, (short)TransactionTypeEnum.Debit);
+            Transaction transactionDetails = new Transaction(account, amountToTransfer, TransactionTypeEnum.Debit);
 
             //Following code should work after actual fund transfer through payment gateway
             account.Balance = account.Balance - amountToTransfer;

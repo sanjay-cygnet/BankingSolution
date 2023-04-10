@@ -5,6 +5,7 @@ using Customer.Application.Dtos;
 using Customer.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Extensions;
+using Shared.Model;
 using Swashbuckle.AspNetCore.Annotations;
 
 /// <summary>
@@ -33,8 +34,8 @@ public class TransactionsController : Controller
     /// </summary>
     /// <returns></returns>
     [HttpPost("get-transactions")]
-    [SwaggerResponse(StatusCodes.Status200OK, null, typeof(List<GetCustomerTransactionDto>))]
-    [SwaggerResponse(StatusCodes.Status500InternalServerError, null, typeof(ErrorResponse))]
+    [SwaggerResponse(StatusCodes.Status200OK, null, typeof(ApiResponse<List<GetCustomerTransactionDto>>))]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, null, typeof(ApiResponse<List<GetCustomerTransactionDto>>))]
     public async Task<IActionResult> GetCustomerTransactions([FromBody] GetCustomerTransactionQuery request)
     {
         var result = await _sender.Send(request);

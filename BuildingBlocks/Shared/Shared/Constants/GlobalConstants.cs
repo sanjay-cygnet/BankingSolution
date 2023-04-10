@@ -15,4 +15,9 @@
         public const string CustomerDomain = "Customer.Domain";
         public const string CustomerInfrastructure = "Customer.Infrastructure";
     }
+
+    public static class Validations
+    {
+        public const string RequestCouldNotProcessed = "Request could not be processed!";
+    }
 }

@@ -4,6 +4,7 @@ using BuildingBlocks.Shared.Constants;
 using Customer.Application.Commands.TransferFunds;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Extensions;
+using Shared.Model;
 using Swashbuckle.AspNetCore.Annotations;
 
 [ApiController]
@@ -27,8 +28,8 @@ public class AccountController : Controller
     /// </summary>
     /// <returns></returns>
     [HttpPost("transfer-fund")]
-    [SwaggerResponse(StatusCodes.Status200OK, null, typeof(bool))]
-    [SwaggerResponse(StatusCodes.Status500InternalServerError, null, typeof(ErrorResponse))]
+    [SwaggerResponse(StatusCodes.Status200OK, null, typeof(ApiResponse<bool>))]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, null, typeof(ApiResponse<bool>))]
     public async Task<IActionResult> TransferFunds([FromBody] TransferFundsCommand request)
     {
         var result = await _sender.Send(request);
