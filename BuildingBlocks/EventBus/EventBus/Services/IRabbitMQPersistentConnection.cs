@@ -1,15 +1,14 @@
-﻿using RabbitMQ.Client;
+﻿namespace BuildingBlocks.EventBus.Services;
 
-namespace BuildingBlocks.EventBus.Services
+using RabbitMQ.Client;
+
+public interface IRabbitMQPersistentConnection : IDisposable
 {
-    public interface IRabbitMQPersistentConnection : IDisposable
-    {
-        bool IsConnected { get; }
-        bool TryConnect();
-        bool CheckConnection();
-        IModel CreateModel();
+    bool IsConnected { get; }
+    bool TryConnect();
+    bool CheckConnection();
+    IModel CreateModel();
 
-        IModel CreateConsumerChannel(string queueName, bool durable = true, bool exclusive = false,
-            bool autoDelete = false);
-    }
+    IModel CreateConsumerChannel(string queueName, bool durable = true, bool exclusive = false,
+        bool autoDelete = false);
 }

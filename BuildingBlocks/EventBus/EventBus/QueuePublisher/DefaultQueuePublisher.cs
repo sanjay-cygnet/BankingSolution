@@ -1,33 +1,35 @@
-﻿using BuildingBlocks.EventBus.Services;
+﻿namespace BuildingBlocks.EventBus.QueuePublisher;
+
+using BuildingBlocks.EventBus.Services;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System.Text;
 
-namespace BuildingBlocks.EventBus.QueuePublisher
+internal sealed class DefaultQueuePublisher : IDefaultQueuePublisher
 {
-    internal sealed class DefaultQueuePublisher : IDefaultQueuePublisher
+    #region Members
+    private IModel _consumerChannel;
+
+    private ILogger<DefaultQueuePublisher> _logger;
+
+    private readonly IRabbitMQPersistentConnection _persistentConnection;
+    #endregion
+
+    #region Ctor
+    public DefaultQueuePublisher(
+        ILogger<DefaultQueuePublisher> logger,
+        IRabbitMQPersistentConnection persistentConnection)
     {
-        #region Members
-        private IModel _consumerChannel;
+        _logger = logger;
+        _persistentConnection = persistentConnection;
+        _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
+    }
+    #endregion
 
-        private ILogger<DefaultQueuePublisher> _logger;
-
-        private readonly IRabbitMQPersistentConnection _persistentConnection;
-        #endregion
-
-        #region Ctor
-        public DefaultQueuePublisher(
-            ILogger<DefaultQueuePublisher> logger,
-            IRabbitMQPersistentConnection persistentConnection)
-        {
-            _logger = logger;
-            _persistentConnection = persistentConnection;
-            _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
-        }
-        #endregion
-
-        #region Method(s)
-        public async Task Publish(string queueName, string queuData)
+    #region Method(s)
+    public async Task Publish(string queueName, string queuData)
+    {
+        await Task.Run(() =>
         {
             try
             {
@@ -42,7 +44,7 @@ namespace BuildingBlocks.EventBus.QueuePublisher
             {
                 _logger.LogError($"{nameof(DefaultQueuePublisher)} => {nameof(Publish)} , error occcured {ex.Message}");
             }
-        }
-        #endregion
+        });
     }
+    #endregion
 }

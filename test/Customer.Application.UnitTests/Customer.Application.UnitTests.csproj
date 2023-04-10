@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared\Shared.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\UnitTest.Extensions\UnitTest.Extensions.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Customer.Application\Customer.Application.csproj" />
     <ProjectReference Include="..\..\Services\Customer\Customer.Domain\Customer.Domain.csproj" />

@@ -1,14 +1,13 @@
-﻿using AutoMapper;
+﻿namespace Customer.Application.DataMapper;
+
+using AutoMapper;
 using Customer.Application.Dtos;
 using Customer.Domain.Entities;
 
-namespace Customer.Application.DataMapper
+public class DataMapperProfile : Profile
 {
-    public class DataMapperProfile : Profile
+    public DataMapperProfile()
     {
-        public DataMapperProfile()
-        {
-            CreateMap<Transaction, GetCustomerTransactionDto>();
-        }
+        CreateMap<Transaction, GetCustomerTransactionDto>();
     }
 }

@@ -1,9 +1,10 @@
-﻿namespace Customer.Application.Commands.TransferFunds
+﻿namespace Customer.Application.Commands.TransferFunds;
+
+using BuildingBlocks.Shared.Model;
+
+public sealed class TransferFundsCommand : IRequest<ApiResponse<bool>>
 {
-    public sealed class TransferFundsCommand : IRequest<bool>
-    {
-        public int SourceAccountId { get; set; }
-        public double Amount { get; set; }
-        public string DestinationAccountNo { get; set; } = string.Empty;
-    }
+    public int SourceAccountId { get; set; }
+    public double Amount { get; set; }
+    public string DestinationAccountNo { get; set; } = string.Empty;
 }

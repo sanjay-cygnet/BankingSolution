@@ -1,7 +1,6 @@
-﻿namespace BuildingBlocks.EventBus.QueuePublisher
+﻿namespace BuildingBlocks.EventBus.QueuePublisher;
+
+public interface IDefaultQueuePublisher
 {
-    public interface IDefaultQueuePublisher
-    {
-        Task Publish(string queueName, string queuData);
-    }
+    Task Publish(string queueName, string queuData);
 }

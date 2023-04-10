@@ -1,39 +1,41 @@
-﻿using BuildingBlocks.EventBus.Constants;
+﻿namespace Notifications.Api.QueueConsumers;
+
+using BuildingBlocks.EventBus.Constants;
 using BuildingBlocks.EventBus.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-namespace Notifications.Api.QueueConsumers
+public class EmailQueueConsumer : BackgroundService
 {
-    public class EmailQueueConsumer : BackgroundService
+    #region Members
+    private readonly ILogger<EmailQueueConsumer> _logger;
+    private IModel _consumerChannel;
+    private readonly IRabbitMQPersistentConnection _persistentConnection;
+    #endregion
+
+    #region Ctor
+    public EmailQueueConsumer(
+        ILogger<EmailQueueConsumer> logger,
+        IRabbitMQPersistentConnection persistentConnection)
     {
-        #region Members
-        private readonly ILogger<EmailQueueConsumer> _logger;
-        private IModel _consumerChannel;
-        private readonly IRabbitMQPersistentConnection _persistentConnection;
-        #endregion
+        _logger = logger;
+        _persistentConnection = persistentConnection;
+        _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
+        _consumerChannel = _persistentConnection.CreateConsumerChannel(DefaultConstants.EmailQueueName);
+    }
 
-        #region Ctor
-        public EmailQueueConsumer(
-            ILogger<EmailQueueConsumer> logger,
-            IRabbitMQPersistentConnection persistentConnection)
-        {
-            _logger = logger;
-            _persistentConnection = persistentConnection;
-            _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
-            _consumerChannel = _persistentConnection.CreateConsumerChannel(DefaultConstants.EmailQueueName);
-        }
+    #endregion
 
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="stoppingToken"></param>
-        /// <returns></returns>
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    #region Methods
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="stoppingToken"></param>
+    /// <returns></returns>
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        await Task.Run(() =>
         {
             _logger.LogInformation("ConsumeQueue " + DateTime.Now.ToShortTimeString());
             var channel = _persistentConnection.CreateModel();
@@ -44,20 +46,23 @@ namespace Notifications.Api.QueueConsumers
             consumer.Received += ConsumerReceivedEvent;
 
             channel.BasicConsume(queue: DefaultConstants.EmailQueueName, autoAck: true, consumer: consumer);
-        }
+        });
+    }
 
-        private void ConsumeQueue()
-        {
-            _logger.LogInformation($"Email consume queue started ");
-            _consumerChannel.QueueDeclare(queue: DefaultConstants.EmailQueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
-            //Consumer
-            var consumer = new AsyncEventingBasicConsumer(_consumerChannel);
-            consumer.Received += ConsumerReceivedEvent;
+    private void ConsumeQueue()
+    {
+        _logger.LogInformation($"Email consume queue started ");
+        _consumerChannel.QueueDeclare(queue: DefaultConstants.EmailQueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+        //Consumer
+        var consumer = new AsyncEventingBasicConsumer(_consumerChannel);
+        consumer.Received += ConsumerReceivedEvent;
 
-            _consumerChannel.BasicConsume(queue: DefaultConstants.EmailQueueName, autoAck: true, consumer: consumer);
-        }
+        _consumerChannel.BasicConsume(queue: DefaultConstants.EmailQueueName, autoAck: true, consumer: consumer);
+    }
 
-        private async Task ConsumerReceivedEvent(object sender, BasicDeliverEventArgs @eventArgs)
+    private async Task ConsumerReceivedEvent(object sender, BasicDeliverEventArgs @eventArgs)
+    {
+        await Task.Run(() =>
         {
             try
             {
@@ -71,7 +76,7 @@ namespace Notifications.Api.QueueConsumers
             {
                 _logger.LogError($"{nameof(EmailQueueConsumer)} => {nameof(ConsumerReceivedEvent)} => Error occured at (UTC)", ex.Message);
             }
-        }
-        #endregion
+        });
     }
+    #endregion
 }
