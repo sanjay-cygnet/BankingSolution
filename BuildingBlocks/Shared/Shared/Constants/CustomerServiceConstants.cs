@@ -16,11 +16,10 @@ public static class CustomerServiceConstants
         public const string MaximumTransactionAmounReached = "Maximum transfer amount limit reached";
     }
 
-
     /// <summary>
-    /// following rules are store temporarily in constants, it should wither came from config or from Db/Cache
+    /// following rules are store temporarily in constants, it should either came from config or from Db/Cache
     /// </summary>
-    public static class Rules
+    public static class BankRules
     {
         public const double MinimumBalanceAmount = 2000;
         public const double TransferAmountLimitPerDay = 50000;

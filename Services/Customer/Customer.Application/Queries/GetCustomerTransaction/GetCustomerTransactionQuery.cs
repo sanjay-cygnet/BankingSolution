@@ -1,5 +1,7 @@
-﻿using Customer.Application.Dtos;
-namespace Customer.Application.Queries;
+﻿namespace Customer.Application.Queries;
+
+using BuildingBlocks.Shared.Model;
+using Customer.Application.Dtos;
 
 public sealed class GetCustomerTransactionQuery : IRequest<ApiResponse<List<GetCustomerTransactionDto>>>
 {

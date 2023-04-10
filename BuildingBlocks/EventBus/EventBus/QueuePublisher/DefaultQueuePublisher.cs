@@ -1,9 +1,9 @@
-﻿using BuildingBlocks.EventBus.Services;
+﻿namespace BuildingBlocks.EventBus.QueuePublisher;
+
+using BuildingBlocks.EventBus.Services;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System.Text;
-
-namespace BuildingBlocks.EventBus.QueuePublisher;
 
 internal sealed class DefaultQueuePublisher : IDefaultQueuePublisher
 {
@@ -29,19 +29,22 @@ internal sealed class DefaultQueuePublisher : IDefaultQueuePublisher
     #region Method(s)
     public async Task Publish(string queueName, string queuData)
     {
-        try
+        await Task.Run(() =>
         {
-            _consumerChannel = _persistentConnection.CreateConsumerChannel(queueName);
-            var body = Encoding.UTF8.GetBytes(queuData);
-            _consumerChannel.BasicPublish(exchange: "",
-                routingKey: queueName,
-                basicProperties: null,
-                body: body);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"{nameof(DefaultQueuePublisher)} => {nameof(Publish)} , error occcured {ex.Message}");
-        }
+            try
+            {
+                _consumerChannel = _persistentConnection.CreateConsumerChannel(queueName);
+                var body = Encoding.UTF8.GetBytes(queuData);
+                _consumerChannel.BasicPublish(exchange: "",
+                    routingKey: queueName,
+                    basicProperties: null,
+                    body: body);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(DefaultQueuePublisher)} => {nameof(Publish)} , error occcured {ex.Message}");
+            }
+        });
     }
     #endregion
 }

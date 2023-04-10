@@ -1,6 +1,6 @@
-﻿using RabbitMQ.Client;
+﻿namespace BuildingBlocks.EventBus.Services;
 
-namespace BuildingBlocks.EventBus.Services;
+using RabbitMQ.Client;
 
 public interface IRabbitMQPersistentConnection : IDisposable
 {

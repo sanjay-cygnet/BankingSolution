@@ -1,6 +1,5 @@
-﻿
-#nullable disable
-namespace BuildingBlocks.Repository.Service;
+﻿namespace BuildingBlocks.Repository.Service;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;

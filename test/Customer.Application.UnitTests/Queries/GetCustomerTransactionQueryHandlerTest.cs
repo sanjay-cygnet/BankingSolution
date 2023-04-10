@@ -2,7 +2,7 @@
 
 using Customer.Application.DataMapper;
 using Moq;
-
+#nullable disable
 public class GetCustomerTransactionQueryHandlerTest
 {
 

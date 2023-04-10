@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿namespace BuildingBlocks.Repository.Service;
+
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
-
-namespace BuildingBlocks.Repository.Service;
 
 public interface IRepositoryAsync<T> where T : class
 {
@@ -30,9 +30,4 @@ public interface IRepositoryAsync<T> where T : class
     void Delete(object id);
 
     void Delete(IEnumerable<T> entities);
-
-    //Task BulkInsertAsync(IList<T> entities);
-    //Task BulkUpdateAsync(IList<T> entities);
-    //Task BulkDeleteAsync(IList<T> entities);
-    //Task BulkInsertOrUpdateAsync(IList<T> entities);
 }

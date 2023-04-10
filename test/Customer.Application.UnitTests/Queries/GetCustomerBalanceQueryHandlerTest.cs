@@ -1,4 +1,5 @@
 ﻿namespace Customer.Application.UnitTests.Queries;
+#nullable disable
 public class GetCustomerBalanceQueryHandlerTest
 {
     [Fact]

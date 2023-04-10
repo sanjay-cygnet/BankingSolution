@@ -1,7 +1,7 @@
 ﻿namespace CAARepositoryLibrary.Entities;
 
 /// <summary>
-/// BaseEntity could use to inherit following common property
+/// IBaseEntity could use to inherit following common property
 /// </summary>
 public interface IBaseEntity
 {

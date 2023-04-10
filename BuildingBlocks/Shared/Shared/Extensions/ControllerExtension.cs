@@ -1,20 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace BuildingBlocks.Shared.Extensions;
+
+using Microsoft.AspNetCore.Mvc;
 using Shared.Model;
 
-namespace Shared.Extensions
+public static class ControllerExtension
 {
-    public static class ControllerExtension
+    public static IActionResult ApiResponse<T>(this ControllerBase controller, ApiResponse<T> response)
     {
-        public static IActionResult ApiResponse<T>(this ControllerBase controller, ApiResponse<T> response)
+        if (response.Success)//success result
         {
-            if (response.Success)//success result
-            {
-                return controller.Ok(response);
-            }
-            else
-            {
-                return controller.StatusCode(response.StatusCode, response);
-            }
+            return controller.Ok(response);
+        }
+        else
+        {
+            return controller.StatusCode(response.StatusCode, response);
         }
     }
 }

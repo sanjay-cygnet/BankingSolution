@@ -2,9 +2,10 @@
 
 using AutoMapper;
 using BuildingBlocks.Repository.Service;
+using BuildingBlocks.Shared.Model;
 using Customer.Application.Dtos;
 using Customer.Domain.Entities;
-using Shared.Model;
+using System.Linq;
 
 internal sealed class GetCustomerTransactionQueryHandler : IRequestHandler<GetCustomerTransactionQuery, ApiResponse<List<GetCustomerTransactionDto>>>
 {
@@ -33,8 +34,13 @@ internal sealed class GetCustomerTransactionQueryHandler : IRequestHandler<GetCu
             return Task.FromResult(new ApiResponse<List<GetCustomerTransactionDto>>(HttpStatusCode.NotFound.ToInt(), CustomerServiceConstants.Messages.NoTransactionsFound));
         }
 
-        List<GetCustomerTransactionDto> transactionsDto = new List<GetCustomerTransactionDto>();
-        _mapper.Map(transactions, transactionsDto);
+        var transactionsDto = transactions.Select(s => new GetCustomerTransactionDto()
+        {
+            ActualTransactionDate = s.ActualTransactionDate,
+            Amount = s.Amount,
+            TransactionNumber = s.TransactionNumber,
+            TransactionType = s.TransactionType > 0 ? Enum.Parse<TransactionTypeEnum>(s.TransactionType.ToString()).ToString() : String.Empty
+        }).ToList();
 
         return Task.FromResult(new ApiResponse<List<GetCustomerTransactionDto>>(transactionsDto));
     }

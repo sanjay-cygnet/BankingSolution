@@ -1,4 +1,7 @@
 ﻿namespace Customer.Application.Commands.TransferFunds;
+
+using BuildingBlocks.Shared.Model;
+
 public sealed class TransferFundsCommand : IRequest<ApiResponse<bool>>
 {
     public int SourceAccountId { get; set; }

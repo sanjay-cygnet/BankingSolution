@@ -4,19 +4,21 @@ namespace Customer.Application.UnitTests.Commands;
 using BuildingBlocks.EventBus.QueuePublisher;
 using Customer.Application.Commands.TransferFunds;
 using Moq;
-
+#nullable disable
 public class TransferFundsCommandHandlerTest
 {
     [Theory]
-    [InlineData(true, false, false, false)]
-    [InlineData(false, true, false, false)]
-    [InlineData(false, false, true, false)]
-    [InlineData(false, false, false, true)]
+    [InlineData(true, false, false, false, false)]
+    [InlineData(false, true, false, false, false)]
+    [InlineData(false, false, true, false, false)]
+    [InlineData(false, false, false, true, false)]
+    [InlineData(false, false, false, true, true)]
     public async Task Test(
         bool Fail_If_InvalidAccount,
         bool Fail_If_AccountBlocked,
         bool Fail_If_InSufficientBalance,
-        bool Success_If_AllValid
+        bool Success_If_AllValid,
+        bool Success_check_MinimumBalanceEvent
         )
     {
         #region Arrange
@@ -50,7 +52,7 @@ public class TransferFundsCommandHandlerTest
         #region Act
         var result = await handler.Handle(new TransferFundsCommand()
         {
-            Amount = 200,
+            Amount = Success_check_MinimumBalanceEvent ? transferAccountDetail.Account.Balance : 200,
             DestinationAccountNo = "ax",
             SourceAccountId = 1
         }, new CancellationToken());
@@ -67,6 +69,9 @@ public class TransferFundsCommandHandlerTest
             Assert.False(result.Success);
 
         if (Success_If_AllValid)
+            Assert.True(result.Success);
+
+        if (Success_check_MinimumBalanceEvent)
             Assert.True(result.Success);
         #endregion
     }

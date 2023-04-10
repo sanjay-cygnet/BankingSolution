@@ -35,15 +35,18 @@ public class EmailQueueConsumer : BackgroundService
     /// <returns></returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("ConsumeQueue " + DateTime.Now.ToShortTimeString());
-        var channel = _persistentConnection.CreateModel();
+        await Task.Run(() =>
+        {
+            _logger.LogInformation("ConsumeQueue " + DateTime.Now.ToShortTimeString());
+            var channel = _persistentConnection.CreateModel();
 
-        channel.QueueDeclare(queue: DefaultConstants.EmailQueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
-        //Consumer
-        var consumer = new AsyncEventingBasicConsumer(channel);
-        consumer.Received += ConsumerReceivedEvent;
+            channel.QueueDeclare(queue: DefaultConstants.EmailQueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            //Consumer
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.Received += ConsumerReceivedEvent;
 
-        channel.BasicConsume(queue: DefaultConstants.EmailQueueName, autoAck: true, consumer: consumer);
+            channel.BasicConsume(queue: DefaultConstants.EmailQueueName, autoAck: true, consumer: consumer);
+        });
     }
 
     private void ConsumeQueue()
@@ -59,18 +62,21 @@ public class EmailQueueConsumer : BackgroundService
 
     private async Task ConsumerReceivedEvent(object sender, BasicDeliverEventArgs @eventArgs)
     {
-        try
+        await Task.Run(() =>
         {
-            var body = @eventArgs.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
-            //var bodyData = JsonConvert.DeserializeObject<SendEmail.Request>(message);
-            Console.WriteLine($"\n data received in : {message}");
-            ///Here code to call service that sends email
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"{nameof(EmailQueueConsumer)} => {nameof(ConsumerReceivedEvent)} => Error occured at (UTC)", ex.Message);
-        }
+            try
+            {
+                var body = @eventArgs.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                //var bodyData = JsonConvert.DeserializeObject<SendEmail.Request>(message);
+                Console.WriteLine($"\n data received in : {message}");
+                ///Here code to call service that sends email
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(EmailQueueConsumer)} => {nameof(ConsumerReceivedEvent)} => Error occured at (UTC)", ex.Message);
+            }
+        });
     }
     #endregion
 }

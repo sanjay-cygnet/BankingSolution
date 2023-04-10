@@ -35,6 +35,7 @@ public class DomainEventDispatcher : SaveChangesInterceptor
         await DispatchDomainEventsAsync(eventData.Context.ChangeTracker);
         return result;
     }
+
     private async Task DispatchDomainEventsAsync(ChangeTracker changeTracker)
     {
         var domainEntitiess = changeTracker

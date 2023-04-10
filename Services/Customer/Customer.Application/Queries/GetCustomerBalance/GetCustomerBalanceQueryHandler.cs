@@ -1,9 +1,9 @@
 ﻿namespace Customer.Application.Queries;
 
 using BuildingBlocks.Repository.Service;
+using BuildingBlocks.Shared.Model;
 using Customer.Application.Dtos;
 using Customer.Domain.Entities;
-using Shared.Model;
 
 internal sealed class GetCustomerBalanceQueryHandler : IRequestHandler<GetCustomerBalanceQuery, ApiResponse<GetCustomerBalanceDto>>
 {

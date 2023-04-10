@@ -1,9 +1,12 @@
 ﻿using BuildingBlocks.EventBus.EventPublisherModel;
+namespace Customer.Application.Commands.TransferFunds;
+
 using BuildingBlocks.EventBus.QueuePublisher;
 using BuildingBlocks.Repository.Service;
+using BuildingBlocks.Shared.Extensions;
+using BuildingBlocks.Shared.Model;
 using Customer.Domain.Entities;
 
-namespace Customer.Application.Commands.TransferFunds;
 internal sealed class TransferFundsCommandHandler : IRequestHandler<TransferFundsCommand, ApiResponse<bool>>
 {
     #region Members

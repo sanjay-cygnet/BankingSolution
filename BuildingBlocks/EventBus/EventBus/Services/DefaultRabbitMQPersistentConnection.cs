@@ -1,12 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿namespace BuildingBlocks.EventBus.Services;
+
+using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using System.Net.Sockets;
-
-namespace BuildingBlocks.EventBus.Services;
+#nullable disable
 
 /// <summary>
 /// 

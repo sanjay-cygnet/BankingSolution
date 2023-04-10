@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace BuildingBlocks.Repository.Service;
 
-namespace BuildingBlocks.Repository.Service;
+using Microsoft.EntityFrameworkCore;
 
 public interface IUnitOfWork : IDisposable
 {

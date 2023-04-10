@@ -1,5 +1,5 @@
 ﻿namespace Customer.Application.Queries;
-
+using BuildingBlocks.Shared.Model;
 using Customer.Application.Dtos;
 
 public sealed class GetCustomerBalanceQuery : IRequest<ApiResponse<GetCustomerBalanceDto>>

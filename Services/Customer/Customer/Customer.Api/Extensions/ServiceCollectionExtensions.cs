@@ -4,6 +4,7 @@ using BuildingBlocks.EventBus.Extensions;
 using BuildingBlocks.Repository.Extensions;
 using BuildingBlocks.Shared.Constants;
 using BuildingBlocks.Shared.Extensions;
+using BuildingBlocks.Shared.PipelineBehaviors;
 using BuildingBlocks.Subscriptions.Infrastructure;
 using Customer.Infrastructure.Context;
 using FluentValidation;
@@ -11,7 +12,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Shared.Constants;
-using Shared.PipelineBehaviors;
 using System.Reflection;
 
 public static class ServiceCollectionExtensions

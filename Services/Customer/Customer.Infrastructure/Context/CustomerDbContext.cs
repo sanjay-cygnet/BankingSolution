@@ -6,7 +6,7 @@ using Customer.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
-
+#nullable disable
 public class CustomerDbContext : DbContext
 {
     #region Ctor
@@ -34,7 +34,7 @@ public class CustomerDbContext : DbContext
                .SetBasePath(Directory.GetCurrentDirectory())
                .AddJsonFile("appsettings.json")
                .Build();
-            var connectionString = configuration["DatabaseConnection"];
+            string? connectionString = configuration["DatabaseConnection"];
             if (!connectionString.IsNull())
                 optionsBuilder.UseSqlServer(connectionString);
         }

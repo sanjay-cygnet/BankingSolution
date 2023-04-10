@@ -25,6 +25,7 @@ public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbCon
         if (!_repositories.ContainsKey(type)) _repositories[type] = new RepositoryAsync<TEntity>(Context, _configuration);
         return (IRepositoryAsync<TEntity>)_repositories[type];
     }
+
     public TContext Context { get; }
 
     private readonly IConfiguration _configuration;

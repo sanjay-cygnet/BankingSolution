@@ -1,12 +1,11 @@
-﻿using System.Net;
+﻿namespace BuildingBlocks.Shared.Extensions;
 
-namespace Shared.Extensions
+using System.Net;
+
+public static class HttpExtensions
 {
-    public static class HttpExtensions
+    public static int ToInt(this HttpStatusCode httpStatus)
     {
-        public static int ToInt(this HttpStatusCode httpStatus)
-        {
-            return (int)httpStatus;
-        }
+        return (int)httpStatus;
     }
 }

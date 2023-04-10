@@ -16,4 +16,3 @@ public class CustomerDomainException : Exception
         : base(message, innerException)
     { }
 }
-

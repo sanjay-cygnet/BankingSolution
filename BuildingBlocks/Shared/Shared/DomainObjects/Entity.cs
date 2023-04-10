@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿namespace BuildingBlocks.Shared.DomainObjects;
+using MediatR;
 #nullable disable
-namespace BuildingBlocks.Shared.DomainObjects;
 public abstract class Entity
 {
     int? _requestedHashCode;

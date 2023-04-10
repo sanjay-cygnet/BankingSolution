@@ -2,7 +2,7 @@
 global using MediatR;
 global using Shared.Constants;
 global using Shared.Enum;
-global using Shared.Extensions;
-global using Shared.Model;
+global using BuildingBlocks.Shared.Extensions;
+global using BuildingBlocks.Shared.Model;
 global using System;
 global using System.Net;

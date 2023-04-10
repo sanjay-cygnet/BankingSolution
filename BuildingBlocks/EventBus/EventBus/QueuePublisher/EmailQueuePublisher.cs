@@ -1,7 +1,7 @@
-﻿using BuildingBlocks.EventBus.EventPublisherModel;
-using Newtonsoft.Json;
+﻿namespace BuildingBlocks.EventBus.QueuePublisher;
 
-namespace BuildingBlocks.EventBus.QueuePublisher;
+using BuildingBlocks.EventBus.EventPublisherModel;
+using Newtonsoft.Json;
 
 internal class EmailQueuePublisher : IEmailQueuePublisher
 {

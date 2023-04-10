@@ -2,18 +2,17 @@
 
 using BuildingBlocks.Shared.DomainObjects;
 using BuildingBlocks.Shared.Extensions;
+using BuildingBlocks.Shared.Model;
 using CAARepositoryLibrary.Entities;
 using global::Customer.Domain.DomainEvents;
 using Shared.Constants;
 using Shared.Enum;
-using Shared.Extensions;
-using Shared.Model;
 using System.Net;
 
 public class Account : Entity, IBaseEntity, IAggregateRoot
 {
     #region Members
-    public long Id { get; set; }
+    public new long Id { get; set; }
     public string AccountNumber { get; set; } = string.Empty;
     public int BankBranchId { get; set; }
     public int CustomerId { get; set; }
@@ -75,7 +74,7 @@ public class Account : Entity, IBaseEntity, IAggregateRoot
             transactionDetails.Status = (short)TransactionStatusEnum.Success;
             _transactions.Add(transactionDetails);
 
-            if (account.Balance <= CustomerServiceConstants.Rules.MinimumBalanceAmount)///Check for minimum balance
+            if (account.Balance <= CustomerServiceConstants.BankRules.MinimumBalanceAmount)///Check for minimum balance
             {
                 AddDomainEvent(new AccountAtMinimumBalanceDomainEvent(account));
             }
@@ -83,7 +82,7 @@ public class Account : Entity, IBaseEntity, IAggregateRoot
 
         return new ApiResponse<bool>()
         {
-            Success = errorMessage.IsNull() ? true : false,
+            Success = errorMessage.IsNull(),
             StatusCode = errorMessage.IsNull() ? HttpStatusCode.OK.ToInt() : HttpStatusCode.BadRequest.ToInt(),
             Error = errorMessage.IsNull() ? null : new ErrorResponse(errorMessage)
         };

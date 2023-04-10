@@ -1,11 +1,11 @@
 namespace Customer.Api.Controllers;
 
 using BuildingBlocks.Shared.Constants;
+using BuildingBlocks.Shared.Extensions;
+using BuildingBlocks.Shared.Model;
 using Customer.Application.Dtos;
 using Customer.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Extensions;
-using Shared.Model;
 using Swashbuckle.AspNetCore.Annotations;
 
 /// <summary>
