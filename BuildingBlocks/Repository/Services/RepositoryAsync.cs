@@ -8,23 +8,29 @@ using System.Linq.Expressions;
 
 public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
 {
+    #region Members
     protected readonly DbContext _dbContext;
     protected readonly DbSet<T> _dbSet;
     private readonly IConfiguration _configuration;
+    #endregion
 
+    #region Ctor
     public RepositoryAsync(DbContext dbContext, IConfiguration configuration)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<T>();
         _configuration = configuration;
     }
+    #endregion
+
+    #region Method(s)
 
     public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>>? predicate = null,
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-        Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, bool enableTracking = false)
+        Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, bool enableTracking = false)//by default traking is disabled, to make calls readonly
     {
         IQueryable<T> query = _dbSet;
-        if (enableTracking) query = query.AsNoTracking();
+        if (!enableTracking) query = query.AsNoTracking();
 
         if (include != null) query = include(query);
 
@@ -40,7 +46,7 @@ public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
         bool enableTracking = false, string fieldsToSelect = "")
     {
         IQueryable<T> query = _dbSet;
-        if (enableTracking) query = query.AsNoTracking();
+        if (!enableTracking) query = query.AsNoTracking();
 
         if (include != null) query = include(query);
 
@@ -107,4 +113,5 @@ public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
         if (entityToDelete != null)
             _dbSet.Remove(entityToDelete);
     }
+    #endregion
 }

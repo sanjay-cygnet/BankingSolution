@@ -27,7 +27,7 @@ internal sealed class TransferFundsCommandHandler : IRequestHandler<TransferFund
     #region Method(s)
     public async Task<ApiResponse<bool>> Handle(TransferFundsCommand request, CancellationToken cancellationToken)
     {
-        var account = await _unitOfWork.GetRepositoryAsync<Account>().FirstOrDefaultAsync(f => f.Id == request.SourceAccountId);
+        var account = await _unitOfWork.GetRepositoryAsync<Account>().FirstOrDefaultAsync(f => f.Id == request.SourceAccountId, enableTracking: true);
 
         if (account is null)
             return new ApiResponse<bool>(HttpStatusCode.NotFound.ToInt(), errorMessage: CustomerServiceConstants.Messages.InvalidAccount);
